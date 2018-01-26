@@ -3,10 +3,14 @@ const MAX_STOP_NOT_REACHED = -1;
 const PATH_MEETS_CONDITION = 0;
 const APPEND_PATH = 2;
 const PATH_EXHAUSTED = 1;
+const STOPS = 'STOPS';
+const SHORTEST = 'SHORTEST';
+const MIN_DIST = 'MIN_DIST';
+const FILE_PATH = 'input.json';
 
 let fs = require('fs');
 //No point behind async call here.
-let inputArray = JSON.parse(fs.readFileSync('input.json', 'utf8')); 
+let inputArray = JSON.parse(fs.readFileSync(FILE_PATH, 'utf8')); 
 
 //Initilize map for storing vertices, each vertix is a key for its adjaceny list
 //this list includes all other reacable vertices from the key with one step
@@ -123,17 +127,17 @@ function findAllPathsRec(cur, end, flag, arg,
 */
 function checkIfConditionMet(flag, arg, path)
 {
-    if (flag === "STOPS")
+    if (flag === STOPS)
     {
         if (countStops(path) < arg) {return MAX_STOP_NOT_REACHED;}
         if (countStops(path) === arg) {return PATH_MEETS_CONDITION;} 
         else {return PATH_EXHAUSTED;} 
     }
-    if (flag === "MIN_DIST")
+    if (flag === MIN_DIST)
     {
         if (getTripDistance(path) < arg) { return APPEND_PATH;}            
     }
-    if (flag === "SHORTEST") { return PATH_MEETS_CONDITION; }
+    if (flag === SHORTEST) { return PATH_MEETS_CONDITION; }
     return PATH_EXHAUSTED;
 }
 
@@ -144,13 +148,13 @@ function countStops(path)
 
 function runAllPathsQuestion4()
 {
-    let paths = findAllPaths('A','C','STOPS', 4);
+    let paths = findAllPaths('A','C',STOPS, 4);
     return paths.length;
 }
 
 function runAllPathsQuestion5()
 {
-    let paths = findAllPaths('B','B','SHORTEST');
+    let paths = findAllPaths('B','B',SHORTEST);
     let distArr = [];
     paths.forEach((elem) =>
     {
@@ -161,7 +165,7 @@ function runAllPathsQuestion5()
 
 function runAllPathsQuestion6()
 {
-    let paths = findAllPaths('C','C','MIN_DIST', 30);
+    let paths = findAllPaths('C','C',MIN_DIST, 30);
     return paths.length;
 }
 
