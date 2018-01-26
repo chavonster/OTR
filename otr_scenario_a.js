@@ -4,14 +4,14 @@ const PATH_MEETS_CONDITION = 0;
 const APPEND_PATH = 2;
 const PATH_EXHAUSTED = 1;
 
-var fs = require('fs');
+let fs = require('fs');
 //No point behind async call here.
-var inputArray = JSON.parse(fs.readFileSync('input.json', 'utf8')); 
+let inputArray = JSON.parse(fs.readFileSync('input.json', 'utf8')); 
 
 //Initilize map for storing vertices, each vertix is a key for its adjaceny list
 //this list includes all other reacable vertices from the key with one step
 // and the compatible weight. E.g. in the given graph A -> [{B, 5}, {D, 5}, {E, 7}]
-var vertexMap = {};
+let vertexMap = {};
 
 /*if the list is already created for the "key", then uses it
 *else creates new list for the "key" to store multiple values in it.
