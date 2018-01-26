@@ -26,7 +26,7 @@ function getTripDistance(str)
     let path = str.split("-");
     
     let distTotal = 0;
-    for (i = 1; i < path.length; i++)
+    for (let i = 1; i < path.length; i++)
     {
         let adjArrForVertex = vertexMap[path[i-1]];
         let adj = adjArrForVertex.find((elem) => {
@@ -41,17 +41,25 @@ function getTripDistance(str)
    return distTotal;
 }
 
-function findAllPaths(start, end, flag, arg)
+
+function findAllPaths(start, end, flag, arg = 0)
 {
     let validPaths = [];
     let prevPath = start;
-    findAllPathsRec(start, end, flag, arg, prevPath, validPaths);
+    let isSamePoint = start === end;    
+    findAllPathsRec
+    (start, end, flag, arg, prevPath, validPaths, isSamePoint);
     return validPaths;
 }
 
-function findAllPathsRec(cur, end, flag, arg, prevPath, validPaths)
-{        
-    if (cur === end)
+function findAllPathsRec
+    (cur, end, flag, arg, prevPath, validPaths, isSamePoint)
+{    
+    if (isSamePoint)
+    {
+        isSamePoint = false;
+    }
+    else if (cur === end)
     { 
         let condition = checkIfConditionMet(flag, arg, prevPath);       
         if(condition === 0)        
@@ -60,23 +68,23 @@ function findAllPathsRec(cur, end, flag, arg, prevPath, validPaths)
             return;
         }
         else if (condition === 1)
-        {
+        {            
             return;
+        }
+        else if (condition === 2)
+        {
+            validPaths.push(prevPath);
+
         }            
     }
-    let adjArrForVertex = vertexMap[cur];
-
+    let adjArrForVertex = vertexMap[cur];    
+    
     for (let i = 0; i < adjArrForVertex.length; i++)
-    {
-        if (cur === 'A')
-        {
-            let fuckme = true;
-        }
-        //prevPath += '-' + cur;
-        let next = adjArrForVertex[i].adjacent;
-        //prevPath += cur;
-        findAllPathsRec(next, end, flag, arg, prevPath + '-' + next, validPaths);        
-        //adjArrForVertex = vertexMap[cur];
+    {                
+        cur = adjArrForVertex[i].adjacent;                
+        findAllPathsRec(cur, end, flag, arg, 
+            prevPath + '-' + cur, validPaths, isSamePoint);        
+        
     }
 }
 
@@ -92,12 +100,12 @@ function checkIfConditionMet(flag, arg, path)
     {
         if (getTripDistance(path) < arg)
         {
-            return 0;
+            return 2;
         }            
     }
     if (flag === "SHORTEST")
-    {
-        return 0;
+    {             
+        return 0;        
     }
     return 1;
 }
@@ -105,6 +113,29 @@ function checkIfConditionMet(flag, arg, path)
 function countStops(path)
 {
     return (path.split("-").length -1);
+}
+
+function runAllPathsQuestion4()
+{
+    let paths = findAllPaths('A','C','STOPS', 4);
+    return paths.length;
+}
+
+function runAllPathsQuestion5()
+{
+    let paths = findAllPaths('B','B','SHORTEST');
+    let distArr = [];
+    paths.forEach((elem) =>
+    {
+        distArr.push(getTripDistance(elem));
+    })
+    return Math.min(distArr);
+}
+
+function runAllPathsQuestion6()
+{
+    let paths = findAllPaths('C','C','MIN_DIST', 30);
+    return paths.length;
 }
 
 let answers = {};
@@ -119,7 +150,11 @@ answers.b = getTripDistance('A-E-B-C-D');
 answers.c = getTripDistance('A-E-D');
 
 //question 4
-answers.d = findAllPaths('A','C','STOPS', 4);
+answers.d = runAllPathsQuestion4();
+
+//answers.e = runAllPathsQuestion5();
+
+answers.f = runAllPathsQuestion6();
 
 
 console.log(JSON.stringify(answers))
