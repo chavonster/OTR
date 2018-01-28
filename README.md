@@ -10,8 +10,9 @@ How to run the programme:
 2. run the programme with node.js.
 
 Overview:
-This solution solves all six questions described in scenario A for the general case. For bigger graphs it is advised to increase the maximum depth of the recursion, otherwise
-solutions could be missed.
+This solution solves all six questions described in scenario A for the general case.
+For bigger graphs it is advised to increase the maximum depth of the recursion, 
+otherwise solutions could be missed.
 
 Sofware Assumptions:
 - Validated input
@@ -28,8 +29,8 @@ certain depth to prevent stack overflow.
 Retrospective:
 A BDS approach to this problem might have been less precarious in terms of a potenial stack overflow and 
 more efficient in terms of the number of traverses until the shortest path is found. On the other hand, 
-in this case the graph is weighted hence the inherent BDS advantage in finding the shortest path is canceled out.
-Moreover, this solution provides a realtively flexible function that could be adjusted for each of the different 
+in this case the graph is weighted, hence the inherent BDS advantage in finding the shortest path is cancelled out.
+Moreover, this solution provides a relatively flexible function that could be adjusted for each of the different 
 questions in this project using branching logic. 
 
 
